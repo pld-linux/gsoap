@@ -1,5 +1,5 @@
-Summary:	gSOAP is a development toolkit for Web services
-Summary(pl):	gSOAP jest zestawem narzêdzi dla Web services
+Summary:	gSOAP - a development toolkit for Web services
+Summary(pl):	gSOAP - zestawem narzêdzi programistycznych dla us³ug WWW
 Name:		gsoap
 Version:	2.7
 Release:	3
@@ -10,7 +10,7 @@ Source0:	http://dl.sourceforge.net/gsoap2/%{name}-%{version}.tar.gz
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	automake
 BuildRequires:	bison
-BuildRequires:	libstdc++
+BuildRequires:	libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -19,7 +19,7 @@ server, client, and peer Web service applications in C and C++.
 
 %description -l pl
 gSOAP udostêpnia wieloplatformowe narzêdzia programistyczne do
-tworzenia serwerów, klientów i partnerów aplikacji Web service w C i
+tworzenia serwerów, klientów i partnerów aplikacji us³ug WWW w C i
 C++.
 
 %prep
