@@ -46,9 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
-install soapcpp2/stdsoap2.c $RPM_BUILD_ROOT%{_libdir}/%{name}
-install soapcpp2/stdsoap2.cpp $RPM_BUILD_ROOT%{_libdir}/%{name}
+install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
+install soapcpp2/stdsoap2.c $RPM_BUILD_ROOT%{_datadir}/%{name}
+install soapcpp2/stdsoap2.cpp $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,5 +59,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_includedir}/*
 %{_libdir}/*.a
-%{_libdir}/%{name}/stdsoap2.*
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/stdsoap2.*
 %{_pkgconfigdir}/*.pc
