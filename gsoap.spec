@@ -10,6 +10,7 @@ Source0:	http://dl.sourceforge.net/gsoap2/%{name}-%{version}.tar.gz
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	automake
 BuildRequires:	bison
+BuildRequires:	flex
 BuildRequires:	libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
