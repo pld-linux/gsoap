@@ -2,7 +2,7 @@ Summary:	gSOAP is a development toolkit for Web services
 Summary(pl):	gSOAP jest zestawem narzêdzi dla Web services
 Name:		gsoap
 Version:	2.7
-Release:	1
+Release:	2
 License:	gSOAP public license
 Group:		Development/Libraries
 Source0:	http://dl.sourceforge.net/gsoap2/%{name}-%{version}.tar.gz
