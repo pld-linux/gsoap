@@ -2,12 +2,13 @@ Summary:	gSOAP is a development toolkit for Web services
 Summary(pl):	gSOAP jest zestawem narzêdzi dla Web services
 Name:		gsoap
 Version:	2.7
-Release:	2
+Release:	3
 License:	gSOAP public license
 Group:		Development/Libraries
 Source0:	http://dl.sourceforge.net/gsoap2/%{name}-%{version}.tar.gz
 # Source0-md5:	c48eb15227892f94d00934bce63ef504
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
+BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	libstdc++
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -25,6 +26,7 @@ C++.
 %setup -q
 
 %build
+cp -f /usr/share/automake/config.sub .
 %configure
 %{__make}
 
