@@ -1,0 +1,92 @@
+diff -Nur gsoap-2.7.orig/configure.in gsoap-2.7.chng/configure.in
+--- gsoap-2.7.orig/configure.in	2004-09-03 02:42:38.000000000 +0200
++++ gsoap-2.7.chng/configure.in	2004-10-08 10:57:08.278744440 +0200
+@@ -168,6 +168,16 @@
+ AC_SUBST(BISON_DEFINE)
+ AC_SUBST(YACC_LIB)
+ 
++# openssl supprot
++AC_ARG_WITH([openssl],
++AS_HELP_STRING([--with-openssl], 
++               [enable openssl support]),
++[OPENSSL_CFLAGS="-DWITH_OPENSSL `pkg-config --cflags openssl`"
++OPENSSL_LDFLAGS="`pkg-config --libs openssl`"
++AC_SUBST(OPENSSL_CFLAGS)
++AC_SUBST(OPENSSL_LDFLAGS)], 
++[])
++
+ AC_CONFIG_FILES([ Makefile gsoap.pc gsoap++.pc gsoapck.pc gsoapck++.pc \
+     soapcpp2/Makefile soapcpp2/src/Makefile soapcpp2/wsdl/Makefile \
+     soapcpp2/samples/Makefile \
+diff -Nur gsoap-2.7.orig/soapcpp2/Makefile.am gsoap-2.7.chng/soapcpp2/Makefile.am
+--- gsoap-2.7.orig/soapcpp2/Makefile.am	2004-09-03 03:04:26.000000000 +0200
++++ gsoap-2.7.chng/soapcpp2/Makefile.am	2004-10-08 11:00:40.396497640 +0200
+@@ -25,13 +25,13 @@
+ 
+ lib_LIBRARIES = libgsoap.a libgsoap++.a libgsoapck.a libgsoapck++.a
+ libgsoap_a_SOURCES=stdsoap2.c
+-libgsoap_a_CFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform)
++libgsoap_a_CFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform) $(OPENSSL_CFLAGS)
+ libgsoap___a_SOURCES=stdsoap2_cpp.cpp
+-libgsoap___a_CXXFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform)
++libgsoap___a_CXXFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform) $(OPENSSL_CFLAGS)
+ libgsoapck_a_SOURCES=stdsoap2_ck.c
+-libgsoapck_a_CFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform) -DWITH_COOKIES
++libgsoapck_a_CFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform) -DWITH_COOKIES $(OPENSSL_CFLAGS)
+ libgsoapck___a_SOURCES=stdsoap2_ck_cpp.cpp
+-libgsoapck___a_CXXFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform) -DWITH_COOKIES
++libgsoapck___a_CXXFLAGS=$(SOAPCPP2_DEBUG) $(SOAPCPP2_NONAMESPACES) -D$(platform) -DWITH_COOKIES $(OPENSSL_CFLAGS)
+ 
+ BUILT_SOURCES=stdsoap2_cpp.cpp $(lib_LIBRARIES)
+ 
+diff -Nur gsoap-2.7.orig/soapcpp2/samples/ssl/Makefile.am gsoap-2.7.chng/soapcpp2/samples/ssl/Makefile.am
+--- gsoap-2.7.orig/soapcpp2/samples/ssl/Makefile.am	2002-09-23 22:35:48.000000000 +0200
++++ gsoap-2.7.chng/soapcpp2/samples/ssl/Makefile.am	2004-10-08 11:13:13.000000000 +0200
+@@ -3,12 +3,17 @@
+ ## you have all needed files, that a GNU package needs
+ AUTOMAKE_OPTIONS = foreign 1.4
+ 
+-noinst_PROGRAMS=ssl
++noinst_PROGRAMS=sslclient sslserver
+ SOAPHEADER=ssl.h
+ 
+ include ../Makefile.defines
+ SOAP_NS=$(SOAP_NS_DEF)
+ include ../Makefile.c_rules
+ 
+-ssl_SOURCES = ssl.c $(SOAPHEADER) $(SOAP_C_CLIENT)
++sslclient_SOURCES = sslclient.c $(SOAPHEADER) $(SOAP_C_CLIENT)
++sslclient_CFLAGS = $(CFLAGS) $(OPENSSL_CFLAGS)
++sslclient_LDADD = $(LDFLAGS) $(OPENSSL_LDFLAGS) $(LDADD)
+ 
++sslserver_SOURCES = sslserver.c $(SOAPHEADER) $(SOAP_C_SERVER)
++sslserver_CFLAGS = $(CFLAGS) $(OPENSSL_CFLAGS)
++sslserver_LDADD = $(LDFLAGS) $(OPENSSL_LDFLAGS) $(LDADD) -lpthread
+diff -Nur gsoap-2.7.orig/soapcpp2/src/Makefile.am gsoap-2.7.chng/soapcpp2/src/Makefile.am
+--- gsoap-2.7.orig/soapcpp2/src/Makefile.am	2004-09-03 03:08:49.000000000 +0200
++++ gsoap-2.7.chng/soapcpp2/src/Makefile.am	2004-10-08 11:01:55.265115880 +0200
+@@ -12,8 +12,8 @@
+ 
+ bin_PROGRAMS=soapcpp2
+ 
+-soapcpp2_CFLAGS=$(BISON_DEFINE) $(LEX_DEFINE) $(C_DEBUG_FLAGS) -D$(platform)
+-soapcpp2_LDADD=$(YACC_LIB) $(LEXLIB)
++soapcpp2_CFLAGS=$(BISON_DEFINE) $(LEX_DEFINE) $(C_DEBUG_FLAGS) -D$(platform) $(OPENSSL_CFLAGS)
++soapcpp2_LDADD=$(YACC_LIB) $(LEXLIB) $(OPENSSL_LDFLAGS)
+ soapcpp2_SOURCES= soapcpp2_yacc.y soapcpp2_lex.l symbol2.c error2.c init2.c soapcpp2.c
+ 
+ CLEANFILES= *~ soapcpp2_lex.c soapcpp2_yacc.c soapcpp2_yacc.h y.output soapcpp2_yacc.output
+diff -Nur gsoap-2.7.orig/soapcpp2/wsdl/Makefile.am gsoap-2.7.chng/soapcpp2/wsdl/Makefile.am
+--- gsoap-2.7.orig/soapcpp2/wsdl/Makefile.am	2004-09-03 03:12:17.000000000 +0200
++++ gsoap-2.7.chng/soapcpp2/wsdl/Makefile.am	2004-10-08 11:01:16.216052240 +0200
+@@ -21,8 +21,8 @@
+ 
+ bin_PROGRAMS=wsdl2h
+ 
+-wsdl2h_CFLAGS=$(C_DEBUG_FLAGS) -D$(platform)
++wsdl2h_CFLAGS=$(C_DEBUG_FLAGS) -D$(platform) $(OPENSSL_CFLAGS)
+ wsdl2h_SOURCES=wsdl2h.cpp wsdl.cpp schema.cpp types.cpp service.cpp soap.cpp
+-wsdl2h_LDADD=$(SOAP_CPP_SRC) $(SOAP_CPP_LIB) $(SAMPLE_EXTRA_LIBS)
++wsdl2h_LDADD=$(SOAP_CPP_SRC) $(SOAP_CPP_LIB) $(SAMPLE_EXTRA_LIBS) $(OPENSSL_LDFLAGS)
+ 
+ CLEANFILES= *~ *C.cpp *Client.cpp *ClientLib.cpp *H.h *Server.cpp *ServerLib.cpp *Stub.h *.xsd
