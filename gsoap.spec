@@ -2,16 +2,21 @@ Summary:	gSOAP - a development toolkit for Web services
 Summary(pl):	gSOAP - zestawem narzêdzi programistycznych dla us³ug WWW
 Name:		gsoap
 Version:	2.7
-Release:	3
+Release:	4
 License:	gSOAP public license
 Group:		Development/Libraries
 Source0:	http://dl.sourceforge.net/gsoap2/%{name}-%{version}.tar.gz
 # Source0-md5:	c48eb15227892f94d00934bce63ef504
+Patch0:		%{name}-with-openssl.patch
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libstdc++-devel
+BuildRequires:	openssl-devel
+BuildRequires:	automake
+BuildRequires:	autoconf
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -25,10 +30,17 @@ C++.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
-%configure
+
+%{__aclocal}
+%{__automake}
+%{__autoconf}
+%configure \
+    --with-openssl
+
 %{__make}
 
 %install
