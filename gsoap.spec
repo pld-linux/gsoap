@@ -2,7 +2,7 @@ Summary:	gSOAP - a development toolkit for Web services
 Summary(pl):	gSOAP - zestawem narzêdzi programistycznych dla us³ug WWW
 Name:		gsoap
 Version:	2.7
-Release:	4
+Release:	5
 License:	gSOAP public license
 Group:		Development/Libraries
 Source0:	http://dl.sourceforge.net/gsoap2/%{name}-%{version}.tar.gz
@@ -46,6 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
+install soapcpp2/stdsoap2.c $RPM_BUILD_ROOT%{_libdir}/%{name}
+install soapcpp2/stdsoap2.cpp $RPM_BUILD_ROOT%{_libdir}/%{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -55,4 +59,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_includedir}/*
 %{_libdir}/*.a
+%{_libdir}/%{name}/stdsoap2.*
 %{_pkgconfigdir}/*.pc
