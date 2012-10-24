@@ -3,12 +3,12 @@
 Summary:	gSOAP - a development toolkit for Web services
 Summary(pl.UTF-8):	gSOAP - zestawem narzędzi programistycznych dla usług WWW
 Name:		gsoap
-Version:	2.7.10
-Release:	2
+Version:	2.8.11
+Release:	0.1
 License:	gSOAP / GPL
 Group:		Development/Libraries
-Source0:	http://dl.sourceforge.net/gsoap2/%{name}_%{version}.tar.gz
-# Source0-md5:	31ac50314900d87c43f8f008c8de712f
+Source0:	http://downloads.sourceforge.net/gsoap2/%{name}_%{version}.zip
+# Source0-md5:	ea2d7ee876d274a188b8fbb365702eec
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -17,6 +17,7 @@ BuildRequires:	flex
 BuildRequires:	libstdc++-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig
+BuildRequires:	unzip
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -34,24 +35,24 @@ tworzenia serwerów, klientów i partnerów aplikacji usług WWW w C i
 C++.
 
 %prep
-%setup -q -n %{name}-2.7
+%setup -q -n %{name}-2.8
 
 %build
 %{__aclocal}
 %{__automake}
 %{__autoconf}
 %configure
+# -j1 as dependencies are not declared properly
 %{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
-install gsoap/stdsoap2.c $RPM_BUILD_ROOT%{_datadir}/%{name}
-install gsoap/stdsoap2.cpp $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -p gsoap/stdsoap2.c $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -p gsoap/stdsoap2.cpp $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
