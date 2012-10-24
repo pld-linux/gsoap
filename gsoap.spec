@@ -1,25 +1,31 @@
 # TODO
 # - shared libraries?
+# - eliminitate or document skip_post_check_so
 Summary:	gSOAP - a development toolkit for Web services
 Summary(pl.UTF-8):	gSOAP - zestawem narzędzi programistycznych dla usług WWW
 Name:		gsoap
 Version:	2.8.11
-Release:	0.1
+Release:	0.2
 License:	gSOAP / GPL
 Group:		Development/Libraries
 Source0:	http://downloads.sourceforge.net/gsoap2/%{name}_%{version}.zip
 # Source0-md5:	ea2d7ee876d274a188b8fbb365702eec
+Patch0:		%{name}-libtool.patch
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	unzip
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		skip_post_check_so	libgsoap.so.0.0.0 libgsoap\\+\\+.so.0.0.0 libgsoapck.so.0.0.0 libgsoapck\\+\\+.so.0.0.0 libgsoapssl.so.0.0.0 libgsoapssl\\+\\+.so.0.0.0
 
 %description
 Conforming to all SOAP 1.1 and 1.2 as well as the WSDL 1.1 standard,
@@ -36,8 +42,10 @@ C++.
 
 %prep
 %setup -q -n %{name}-2.8
+%patch0 -p1
 
 %build
+%{__libtoolize}
 %{__aclocal}
 %{__automake}
 %{__autoconf}
