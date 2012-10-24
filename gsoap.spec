@@ -4,7 +4,7 @@ Summary:	gSOAP - a development toolkit for Web services
 Summary(pl.UTF-8):	gSOAP - zestawem narzędzi programistycznych dla usług WWW
 Name:		gsoap
 Version:	2.8.11
-Release:	0.3
+Release:	1
 License:	gSOAP / GPL
 Group:		Development/Libraries
 Source0:	http://downloads.sourceforge.net/gsoap2/%{name}_%{version}.zip
@@ -20,6 +20,7 @@ BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.583
+BuildRequires:	sed >= 4.0
 BuildRequires:	unzip
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -63,6 +64,10 @@ Statyczna biblioteka %{name}.
 %prep
 %setup -q -n %{name}-2.8
 %patch0 -p1
+
+# remove stuff with gsoap license only - not GPL
+%{__rm} -r gsoap/extras gsoap/mod_gsoap gsoap/Symbian
+%{__sed} -i -e 's!$(srcdir)/extras/\*!!' gsoap/Makefile.am
 
 %build
 %{__libtoolize}
@@ -255,6 +260,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/plugin/wsddapi.h
 # Additions in 2.8.7-1
 %{_datadir}/%{name}/import/wsdd10.h
+
+# Additions in 2.8.9-1
+%{_datadir}/gsoap/WS/WS-SecureConversation.xsd
+%{_datadir}/gsoap/WS/WS-Trust.wsdl
+%{_datadir}/gsoap/WS/WS-Trust.xsd
+%{_datadir}/gsoap/import/ser.h
+%{_datadir}/gsoap/import/wsc.h
+%{_datadir}/gsoap/import/wsrm5.h
+%{_datadir}/gsoap/import/wsrx5.h
+%{_datadir}/gsoap/import/wst.h
+%{_datadir}/gsoap/import/wstx.h
 
 %files static
 %defattr(644,root,root,755)
