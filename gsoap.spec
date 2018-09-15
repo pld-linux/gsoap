@@ -4,7 +4,7 @@ Summary:	gSOAP - a development toolkit for Web services
 Summary(pl.UTF-8):	gSOAP - zestawem narzędzi programistycznych dla usług WWW
 Name:		gsoap
 Version:	2.8.11
-Release:	1
+Release:	2
 License:	gSOAP / GPL
 Group:		Development/Libraries
 Source0:	http://downloads.sourceforge.net/gsoap2/%{name}_%{version}.zip
