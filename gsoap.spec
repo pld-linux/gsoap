@@ -3,13 +3,14 @@
 Summary:	gSOAP - a development toolkit for Web services
 Summary(pl.UTF-8):	gSOAP - zestawem narzędzi programistycznych dla usług WWW
 Name:		gsoap
-Version:	2.8.11
-Release:	2
+Version:	2.8.70
+Release:	1
 License:	gSOAP / GPL
 Group:		Development/Libraries
-Source0:	http://downloads.sourceforge.net/gsoap2/%{name}_%{version}.zip
-# Source0-md5:	ea2d7ee876d274a188b8fbb365702eec
+Source0:	http://downloads.sourceforge.net/gsoap2/gsoap-2.8/%{name}_%{version}.zip
+# Source0-md5:	5704bbfe8ba1c1e8c85130e534ed6368
 Patch0:		%{name}-libtool.patch
+Patch1:		%{name}-xlocale.patch
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -64,10 +65,11 @@ Statyczna biblioteka %{name}.
 %prep
 %setup -q -n %{name}-2.8
 %patch0 -p1
+%patch1 -p1
 
 # remove stuff with gsoap license only - not GPL
 %{__rm} -r gsoap/extras gsoap/mod_gsoap gsoap/Symbian
-%{__sed} -i -e 's!$(srcdir)/extras/\*!!' gsoap/Makefile.am
+%{__sed} -i -e 's!$(top_srcdir)/gsoap/extras/\*!!' gsoap/Makefile.am
 
 %build
 %{__libtoolize}
