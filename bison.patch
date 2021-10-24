@@ -1,0 +1,11 @@
+--- gsoap-2.8/gsoap/src/soapcpp2_lex.l~	2018-08-27 19:05:09.000000000 +0200
++++ gsoap-2.8/gsoap/src/soapcpp2_lex.l	2021-10-24 23:11:13.943438206 +0200
+@@ -48,7 +48,7 @@
+ #endif
+ 
+ #ifdef WITH_BISON
+-YYSTYPE yylval;
++extern YYSTYPE yylval;
+ #undef YY_NEED_STRLEN
+ #define YY_INPUT(buf, result, max_size) \
+         { \
