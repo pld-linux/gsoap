@@ -65,9 +65,9 @@ Statyczna biblioteka %{name}.
 
 %prep
 %setup -q -n %{name}-2.8
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
 # remove stuff with gsoap license only - not GPL
 %{__rm} -r gsoap/extras gsoap/mod_gsoap gsoap/Symbian
