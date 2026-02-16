@@ -10,8 +10,6 @@ Group:		Development/Libraries
 Source0:	http://downloads.sourceforge.net/gsoap2/gsoap-2.8/%{name}_%{version}.zip
 # Source0-md5:	884b7fe9516036ec9ae64f9c4da332eb
 Patch0:		%{name}-libtool.patch
-Patch1:		%{name}-xlocale.patch
-Patch2:		bison.patch
 URL:		http://www.cs.fsu.edu/~engelen/soap.html
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -66,8 +64,6 @@ Statyczna biblioteka %{name}.
 %prep
 %setup -q -n %{name}-2.8
 %patch -P0 -p1
-#patch -P1 -p1
-#patch -P2 -p1
 
 # remove stuff with gsoap license only - not GPL
 %{__rm} -r gsoap/extras gsoap/mod_gsoap gsoap/Symbian
