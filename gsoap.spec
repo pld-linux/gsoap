@@ -3,12 +3,12 @@
 Summary:	gSOAP - a development toolkit for Web services
 Summary(pl.UTF-8):	gSOAP - zestawem narzędzi programistycznych dla usług WWW
 Name:		gsoap
-Version:	2.8.70
-Release:	2
+Version:	2.8.140
+Release:	1
 License:	gSOAP / GPL
 Group:		Development/Libraries
 Source0:	http://downloads.sourceforge.net/gsoap2/gsoap-2.8/%{name}_%{version}.zip
-# Source0-md5:	5704bbfe8ba1c1e8c85130e534ed6368
+# Source0-md5:	884b7fe9516036ec9ae64f9c4da332eb
 Patch0:		%{name}-libtool.patch
 Patch1:		%{name}-xlocale.patch
 Patch2:		bison.patch
@@ -66,8 +66,8 @@ Statyczna biblioteka %{name}.
 %prep
 %setup -q -n %{name}-2.8
 %patch -P0 -p1
-%patch -P1 -p1
-%patch -P2 -p1
+#patch -P1 -p1
+#patch -P2 -p1
 
 # remove stuff with gsoap license only - not GPL
 %{__rm} -r gsoap/extras gsoap/mod_gsoap gsoap/Symbian
@@ -78,9 +78,9 @@ Statyczna biblioteka %{name}.
 %{__aclocal}
 %{__automake}
 %{__autoconf}
-%configure
-# -j1 as dependencies are not declared properly
-%{__make} -j1
+%configure \
+	--enable-ipv6
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -133,148 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/gsoap++.pc
 %{_pkgconfigdir}/gsoapssl.pc
 %{_pkgconfigdir}/gsoapssl++.pc
-
-%dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/import
-%{_datadir}/%{name}/import/c14n.h
-%{_datadir}/%{name}/import/dom.h
-%{_datadir}/%{name}/import/ds2.h
-%{_datadir}/%{name}/import/ds.h
-%{_datadir}/%{name}/import/README.txt
-%{_datadir}/%{name}/import/soap12.h
-%{_datadir}/%{name}/import/stldeque.h
-%{_datadir}/%{name}/import/stl.h
-%{_datadir}/%{name}/import/stllist.h
-%{_datadir}/%{name}/import/stlset.h
-%{_datadir}/%{name}/import/stlvector.h
-%{_datadir}/%{name}/import/wsa3.h
-%{_datadir}/%{name}/import/wsa4.h
-%{_datadir}/%{name}/import/wsa5.h
-%{_datadir}/%{name}/import/wsa.h
-%{_datadir}/%{name}/import/WS-example.c
-%{_datadir}/%{name}/import/WS-example.h
-%{_datadir}/%{name}/import/WS-Header.h
-%{_datadir}/%{name}/import/wsp.h
-%{_datadir}/%{name}/import/wsrp.h
-%{_datadir}/%{name}/import/wsse2.h
-%{_datadir}/%{name}/import/wsse.h
-%{_datadir}/%{name}/import/wsu.h
-%{_datadir}/%{name}/import/xlink.h
-%{_datadir}/%{name}/import/xmime4.h
-%{_datadir}/%{name}/import/xmime5.h
-%{_datadir}/%{name}/import/xmime.h
-%{_datadir}/%{name}/import/xml.h
-%{_datadir}/%{name}/import/xmlmime5.h
-%{_datadir}/%{name}/import/xmlmime.h
-%{_datadir}/%{name}/import/xop.h
-%dir %{_datadir}/%{name}/WS
-%{_datadir}/%{name}/WS/README.txt
-%{_datadir}/%{name}/WS/WS-Addressing.xsd
-%{_datadir}/%{name}/WS/WS-Addressing03.xsd
-%{_datadir}/%{name}/WS/WS-Addressing04.xsd
-%{_datadir}/%{name}/WS/WS-Addressing05.xsd
-%{_datadir}/%{name}/WS/WS-Discovery.wsdl
-%{_datadir}/%{name}/WS/WS-Enumeration.wsdl
-%{_datadir}/%{name}/WS/WS-Policy.xsd
-%{_datadir}/%{name}/WS/WS-Routing.xsd
-%{_datadir}/%{name}/WS/WS-typemap.dat
-%{_datadir}/%{name}/WS/discovery.xsd
-%{_datadir}/%{name}/WS/ds.xsd
-%{_datadir}/%{name}/WS/enumeration.xsd
-%{_datadir}/%{name}/WS/typemap.dat
-%{_datadir}/%{name}/WS/wsse.xsd
-%{_datadir}/%{name}/WS/wsu.xsd
-%dir %{_datadir}/%{name}/custom
-%{_datadir}/%{name}/custom/README.txt
-%{_datadir}/%{name}/custom/long_double.c
-%{_datadir}/%{name}/custom/long_double.h
-%{_datadir}/%{name}/custom/struct_timeval.c
-%{_datadir}/%{name}/custom/struct_timeval.h
-%{_datadir}/%{name}/custom/struct_tm.c
-%{_datadir}/%{name}/custom/struct_tm.h
-%dir %{_datadir}/%{name}/plugin
-%{_datadir}/%{name}/plugin/README.txt
-%{_datadir}/%{name}/plugin/cacerts.c
-%{_datadir}/%{name}/plugin/cacerts.h
-%{_datadir}/%{name}/plugin/httpda.c
-%{_datadir}/%{name}/plugin/httpda.h
-%{_datadir}/%{name}/plugin/httpdatest.c
-%{_datadir}/%{name}/plugin/httpdatest.h
-%{_datadir}/%{name}/plugin/httpform.c
-%{_datadir}/%{name}/plugin/httpform.h
-%{_datadir}/%{name}/plugin/httpget.c
-%{_datadir}/%{name}/plugin/httpget.h
-%{_datadir}/%{name}/plugin/httpgettest.c
-%{_datadir}/%{name}/plugin/httpgettest.h
-%{_datadir}/%{name}/plugin/httpmd5.c
-%{_datadir}/%{name}/plugin/httpmd5.h
-%{_datadir}/%{name}/plugin/httpmd5test.c
-%{_datadir}/%{name}/plugin/httpmd5test.h
-%{_datadir}/%{name}/plugin/httppost.c
-%{_datadir}/%{name}/plugin/httppost.h
-%{_datadir}/%{name}/plugin/logging.c
-%{_datadir}/%{name}/plugin/logging.h
-%{_datadir}/%{name}/plugin/md5evp.c
-%{_datadir}/%{name}/plugin/md5evp.h
-%{_datadir}/%{name}/plugin/plugin.c
-%{_datadir}/%{name}/plugin/plugin.h
-%{_datadir}/%{name}/plugin/smdevp.c
-%{_datadir}/%{name}/plugin/smdevp.h
-%{_datadir}/%{name}/plugin/threads.c
-%{_datadir}/%{name}/plugin/threads.h
-%{_datadir}/%{name}/plugin/wsaapi.c
-%{_datadir}/%{name}/plugin/wsaapi.h
-%{_datadir}/%{name}/plugin/wsse2api.c
-%{_datadir}/%{name}/plugin/wsse2api.h
-%{_datadir}/%{name}/plugin/wsseapi.c
-%{_datadir}/%{name}/plugin/wsseapi.h
-# Additions in 2.7.12-1
-%{_datadir}/%{name}/WS/WS-ReliableMessaging.wsdl
-%{_datadir}/%{name}/WS/WS-ReliableMessaging.xsd
-%{_datadir}/%{name}/WS/reference-1.1.xsd
-%{_datadir}/%{name}/WS/ws-reliability-1.1.xsd
-%{_datadir}/%{name}/import/ref.h
-%{_datadir}/%{name}/import/wsrm.h
-%{_datadir}/%{name}/import/wsrm4.h
-%{_datadir}/%{name}/import/wsrx.h
-# Additions in 2.7.13-1
-%{_datadir}/%{name}/import/stdstring.h
-%{_datadir}/%{name}/import/xsd.h
-%{_datadir}/%{name}/plugin/wsseapi.cpp
-# Additions in 2.7.16-1
-%{_datadir}/%{name}/custom/duration.c
-%{_datadir}/%{name}/custom/duration.h
-%{_datadir}/%{name}/plugin/httpposttest.c
-%{_datadir}/%{name}/plugin/httpposttest.h
-%{_datadir}/%{name}/plugin/wsrmapi.c
-%{_datadir}/%{name}/plugin/wsrmapi.h
-# Additions in 2.7.17-1
-%{_datadir}/%{name}/WS/WS-Policy12.xsd
-%{_datadir}/%{name}/WS/WS-SecurityPolicy.xsd
-%{_datadir}/%{name}/import/wsse11.h
-# Additions in 2.8.3-1
-%{_datadir}/%{name}/WS/xenc.xsd
-%{_datadir}/%{name}/import/xenc.h
-%{_datadir}/%{name}/plugin/mecevp.c
-%{_datadir}/%{name}/plugin/mecevp.h
-# Additions in 2.8.4-1
-%{_datadir}/%{name}/import/wsdd.h
-%{_datadir}/%{name}/import/wsdx.h
-%{_datadir}/%{name}/plugin/wsddapi.c
-%{_datadir}/%{name}/plugin/wsddapi.h
-# Additions in 2.8.7-1
-%{_datadir}/%{name}/import/wsdd10.h
-
-# Additions in 2.8.9-1
-%{_datadir}/gsoap/WS/WS-SecureConversation.xsd
-%{_datadir}/gsoap/WS/WS-Trust.wsdl
-%{_datadir}/gsoap/WS/WS-Trust.xsd
-%{_datadir}/gsoap/import/ser.h
-%{_datadir}/gsoap/import/wsc.h
-%{_datadir}/gsoap/import/wsrm5.h
-%{_datadir}/gsoap/import/wsrx5.h
-%{_datadir}/gsoap/import/wst.h
-%{_datadir}/gsoap/import/wstx.h
+%{_datadir}/%{name}
 
 %files static
 %defattr(644,root,root,755)
